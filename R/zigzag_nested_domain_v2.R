@@ -47,20 +47,6 @@
 			kept_row_names = rownames(pA_sym)
 		}
 
-		# res_inner = rep(list(), nrow(compartment_segs)) ## for each compartment domain
-		# for( i in 1:nrow(compartment_segs) )
-		# {
-		# 	seg = compartment_segs[i,1]:compartment_segs[i,2]
-		# 	cat('Compute seg:', i, 'of length:', length(seg), '\n')
-
-		# 	A_seg = as.matrix(pA_sym[seg, seg])
-		# 	res_zigzag = zigzag_loglik_ancestors_v4(A_seg, nrow(A_seg))
-		# 	res_outer = list(A=A_seg, L=res_zigzag$L, ancestors=res_zigzag$ancestors)
-		# 	res_inner[[i]] = res_outer
-		# 	cat('finished', '\n')
-		# }
-
-		## changed to paralell, 2018-11-11
 
 		res_inner = foreach::foreach(i=1:nrow(compartment_segs)) %do%
 		{
@@ -78,9 +64,6 @@
 		
 		segmentss = compartment_segs
 		res_info = list( arg_list=arg_list, pA_sym=pA_sym, A_final=pA_sym, segmentss=segmentss, res_inner=res_inner )
-		# res_folder_final = file.path(res_dir, 'final')
-		# dir.create(res_folder_final, recursive=TRUE, showWarnings = TRUE)
-		# save(res_info, file=file.path(res_folder_final, 'res_info.Rdata'))
 	
 		time_finish = Sys.time()
 		cat('Execution finishes:', as.character(time_finish), '\n', file=total_execution_time_file, append=TRUE)
