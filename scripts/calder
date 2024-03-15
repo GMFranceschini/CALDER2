@@ -63,6 +63,7 @@ parse_arguments <- function(){
 	writeLines(c(
 		"*******************************",
 		"*            CALDER           *",
+		"*  Dev version (GMF)	       *",
 		"*******************************",
 		paste0("[Parameters] Input: ", opt$input),
 		paste0("[Parameters] Input type: ", opt$type),
