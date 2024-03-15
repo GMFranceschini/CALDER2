@@ -76,7 +76,7 @@ parse_arguments <- function(){
 		paste0("[Parameters] N. cores: ", opt$nproc),
 		paste0("[Parameters] Output: ", opt$outpath),
 		paste0("[Parameters] Keep Intermediate data: ", opt$keep_intermediate),
-		paste0("[Parameters] Use adaptive resolution: ", opt$adaptive)
+		paste0("[Parameters] Use adaptive resolution: ", opt$adaptive),
 		paste0("[Parameters] Call subdomains: ", opt$sub_domains)
 	))
 
