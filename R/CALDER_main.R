@@ -12,8 +12,10 @@ CALDER = function(contact_tab_dump = NULL,
                   feature_track = NULL,
                   black_list_bins = NULL,
                   n_cores = 1,
-                  sub_domains = FALSE,
-                  single_binsize_only = FALSE)
+                  sub_domains = TRUE,
+                  single_binsize_only = FALSE,
+                  predefined_domains = NULL
+                  )
 {
   ########################### https://stackoverflow.com/questions/30216613/how-to-use-dopar-when-only-import-foreach-in-description-of-a-package
   
@@ -109,17 +111,16 @@ CALDER = function(contact_tab_dump = NULL,
   
   ########################### compute compartment for each bin_size and chr
   
-  silent_out =  foreach::foreach(i = 1:nrow(para_tab)) %dopar%
+  silent_out =  foreach::foreach(i = 1:nrow(para_tab), .export = c("predefined_domains")) %dopar%
     {
+      .GlobalEnv$predefined_domains <- predefined_domains
+
       bin_size2look = para_tab$bin_size[i]
       chr = para_tab$chr[i]
       bin_size_kb = sprintf("%skb", bin_size2look / 1E3)
-      save_dir_binsize = file.path(save_dir,
-                                   'intermediate_data/sub_compartments',
-                                   bin_size_kb)
+      save_dir_binsize = file.path(save_dir, 'intermediate_data/sub_compartments', bin_size_kb)
       
-      save_intermediate_data_tmp = save_intermediate_data * (bin_size2look ==
-                                                               bin_size)
+      save_intermediate_data_tmp = save_intermediate_data * (bin_size2look == bin_size)
       
       CALDER_CD_hierarchy_v2(
         contact_tab_dump = contact_tab_dump[[chr]],
@@ -134,6 +135,7 @@ CALDER = function(contact_tab_dump = NULL,
         ref_compartment_file = ref_compartment_file,
         feature_track = feature_track,
         black_list_bins = black_list_bins
+        # predefined_domains = predefined_domains
       )
     }
   
@@ -146,6 +148,17 @@ CALDER = function(contact_tab_dump = NULL,
     with_ref = !is.null(genome)
   ))
   
+  ########################### Collect the topDom outputs if produced
+
+  if ( is.null(predefined_domains) ){
+    retrieve_opt_domain_calls(
+      save_dir = save_dir,
+      chrs = chrs,
+      bin_size = bin_size
+    )
+  }
+
+
   ########################### if computing sub-domains
   
   if (sub_domains == TRUE)

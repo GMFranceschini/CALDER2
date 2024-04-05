@@ -130,7 +130,8 @@ CALDER_CD_hierarchy_v2 = function(contact_tab_dump = NULL,
                                   swap_AB,
                                   ref_compartment_file,
                                   black_list_bins = NULL,
-                                  feature_track = NULL)
+                                  feature_track = NULL, 
+                                  predefined_domains = NULL)
 {
   chr_num = gsub('chr', '', chr, ignore.case = TRUE)
   chr_name = paste0('chr', chr_num)
@@ -319,6 +320,9 @@ CALDER_CD_hierarchy_v2 = function(contact_tab_dump = NULL,
     '\n'
   )
   
+  
+  if (is.null(predefined_domains)){
+  
   compartments[[2]] = generate_compartments_bed(
     chr = chr,
     bin_size = bin_size2look,
@@ -328,7 +332,20 @@ CALDER_CD_hierarchy_v2 = function(contact_tab_dump = NULL,
     out_file_name = NULL,
     stat_window_size = NULL
   )
+  
   topDom_output = compartments[[2]]
+  tdc_file = paste0(save_dir, "/chr", chr, '_topDom.rds')
+  saveRDS(topDom_output, file = tdc_file)
+  
+  } else {
+    
+    message("-- Using predefined domain --")
+    assertthat::are_equal(chr %in% names(predefined_domains), TRUE)
+    tdc = readRDS(predefined_domains)
+    compartments[[chr]] = tdc
+    
+  }
+  
   bin_names = rownames(mat_dense)
   mat_dense = as.matrix(mat_dense)
   initial_clusters = apply(topDom_output$domain[, c("from.id", "to.id")], 1, function(v)
@@ -590,6 +607,7 @@ generate_hierachy_bed = function(chr, res, save_dir, bin_size)
   compartments_tsv_file = paste0(save_dir, '/chr', chr, '_domain_hierachy.tsv')
   compartments_bed_file = paste0(save_dir, '/chr', chr, '_sub_compartments.bed')
   boundary_bed_file = paste0(save_dir, '/chr', chr, '_domain_boundaries.bed')
+
   
   options(scipen = 999)
   write.table(
