@@ -78,15 +78,10 @@ retrieve_opt_domain_calls <- function(save_dir, chrs, bin_sizes, with_ref) {
                 opt_binsize = (colnames(consist_tab)[-1])[opt_index]
             )
 
-            print(opt_bin_tab)
-
-
             list_doms <- list()
             for (i in 1:nrow(opt_bin_tab)) {
-				print(getwd())
 				chrn = opt_bin_tab$chr[i]
                 path_topDom <- paste0(save_dir, "intermediate_data/sub_compartments/", opt_bin_tab$opt_binsize[i], "/", chrn, "_topDom.rds")
-				print(path_topDom)
                 td <- readRDS(path_topDom)
                 list_doms[[chrn]] <- td
             }
