@@ -18,6 +18,12 @@ CALDER <- function(contact_tab_dump = NULL,
   `%dopar%` <- foreach::`%dopar%`
   `%do%` <- foreach::`%do%`
 
+  # Oddly, this seems to be necesary to call sub-domains.
+  # I might have changed something sensible - but this fix is good enoguh for now.
+  if sub_domains {
+    save_intermediate_data = TRUE
+  }
+
   ###########################
 
   chrs <- as.character(chrs)

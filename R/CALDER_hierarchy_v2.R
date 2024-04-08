@@ -553,7 +553,6 @@ CALDER_CD_hierarchy_v2 <- function(contact_tab_dump = NULL,
   if (save_intermediate_data == TRUE) {
     saveRDS(intermediate_data, file = intermediate_data_file)
   }
-  # cat(intermediate_data_file)
   return(intermediate_data_file)
 }
 
