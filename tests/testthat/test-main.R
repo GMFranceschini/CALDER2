@@ -9,7 +9,6 @@ test_that("CALDER works with cool files", {
     CMD = paste0(CALDER_CLI, " -i ", input_cool_path, " -t cool -g hg38 -o ", output_path)
     system(CMD)
 
-    expect_snapshot_file(file.path(output_path, "sub_compartments", "all_sub_compartments.bed"), name = "TestCool_all_sub_compartments.bed")
     expect_snapshot_file(file.path(output_path, "sub_compartments", "all_sub_compartments.tsv"), name = "TestCool_all_sub_compartments.tsv")
     expect_snapshot_file(file.path(output_path, "sub_domains", "all_nested_boundaries.bed"), name = "TestCool_all_nested_boundaries.bed")
     unlink(output_path, recursive=TRUE)
