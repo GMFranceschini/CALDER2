@@ -336,13 +336,16 @@ CALDER_CD_hierarchy_v2 <- function(contact_tab_dump = NULL,
       stat_window_size = NULL
     )
 
-    tdc_file <- paste0(save_dir, "/chr", chr, "_", bin_size2look/1E03 ,"Kb_topDom.rds")
-    saveRDS(compartments[[2]], file = tdc_file)
+    tdc_file <- paste0(save_dir, "/chr", chr, "_", bin_size2look/1E03 ,"kb_topDom.rds")
+    tdc_save = compartments[[2]]
+    saveRDS(tdc_save, file = tdc_file)
 
   } else {
-    tdc <- readRDS(predefined_domains)
-    assertthat::are_equal(paste0("chr", chr) %in% names(tdc), TRUE)
-    tda <- tdc[[paste0("chr", chr)]]
+    path_domain <- paste0(predefined_domains, "/TopDom_domains_", bin_size2look/1E03 , "kb.rds")
+    assertthat::are_equal(file.exists(path_domain), TRUE)
+    tdc <- readRDS(path_domain)
+    assertthat::are_equal(chr %in% names(tdc), TRUE)
+    tda <- tdc[[as.character(chr)]]
     compartments[[2]] <- tda
   }
 

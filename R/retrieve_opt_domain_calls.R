@@ -65,6 +65,7 @@ retrieve_opt_domain_calls <- function(save_dir, chrs, bin_sizes, with_ref) {
 
         {
             save_dir_opt <- file.path(save_dir, "sub_compartments")
+
             dir.create(save_dir_opt,
                 recursive = TRUE,
                 showWarnings = FALSE

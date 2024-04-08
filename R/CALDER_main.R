@@ -18,11 +18,6 @@ CALDER <- function(contact_tab_dump = NULL,
   `%dopar%` <- foreach::`%dopar%`
   `%do%` <- foreach::`%do%`
 
-  if (!is.null(predefined_domains)) {
-    single_binsize_only <- TRUE
-    print("Using predefined_domains to compute sub-compartments - single_binsize_only is set to TRUE\n ")
-  }
-
   ###########################
 
   chrs <- as.character(chrs)
@@ -129,7 +124,9 @@ CALDER <- function(contact_tab_dump = NULL,
 
   ########################### compute compartment for each bin_size and chr
 
-  silent_out <- foreach::foreach(i = 1:nrow(para_tab), .export = c("predefined_domains")) %dopar% {
+  print(para_tab)
+
+  silent_out <- foreach::foreach(i = 1:nrow(para_tab), .export = c("predefined_domains"), .verbose = TRUE) %dopar% {
     .GlobalEnv$predefined_domains <- predefined_domains
 
     bin_size2look <- para_tab$bin_size[i]
@@ -156,23 +153,24 @@ CALDER <- function(contact_tab_dump = NULL,
     )
   }
 
+
   ########################### build optimal compartment from multiple resolutions
 
 
   ########################### Collect the topDom outputs if produced
 
-  if (is.null(predefined_domains)) {
-    try(build_comp_table_opt(
-      save_dir = save_dir,
-      chrs = chrs,
-      bin_sizes = bin_sizes,
-      with_ref = !is.null(genome)
-    ))
+  try(build_comp_table_opt(
+    save_dir = save_dir,
+    chrs = chrs,
+    bin_sizes = bin_sizes,
+    with_ref = !is.null(genome)
+  ))
 
-    retrieve_opt_domain_calls(
+  if (is.null(predefined_domains)) {
+    retrieve_all_domain_calls(
       save_dir = save_dir,
       chrs = chrs,
-      bin_size = bin_size
+      bin_sizes = bin_sizes
     )
   }
 
