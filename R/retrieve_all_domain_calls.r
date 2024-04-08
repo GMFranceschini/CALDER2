@@ -5,11 +5,10 @@ retrieve_all_domain_calls = function(save_dir, chrs, bin_sizes){
 
 	domain_bin = list()
 	for(chr in chrs){
-			path_topDom <- paste0(save_dir, "/intermediate_data/sub_compartments/", bin_size_kb, "/chr", chr,"_", bin_size_kb, "_topDom.rds")
+			path_topDom <- paste0(save_dir, "/intermediate_data/sub_compartments/", bin_size_kb, "/chr", chr,"_", bin_size_kb, "_TopDom.rds")
 			td <- readRDS(path_topDom)
 			domain_bin[[chr]] = td
 		}
-
 		saveRDS(domain_bin, file = paste0("TopDom_domains_", bin_size_kb, ".rds"))
 	}
 }

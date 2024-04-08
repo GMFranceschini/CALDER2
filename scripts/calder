@@ -24,7 +24,7 @@ parse_arguments <- function(){
 	              when genome == 'others'. The track should presumably have higher values
 	              in A than in B compartmnets. [default %default]"),
 	  make_option(c("-c", "--chromosomes"), action='store', default='all', type='character',
-	  			  help="Chromosomes to analyze, separated by comma. [default %default]"),
+	  			help="Chromosomes to analyze, separated by comma. [default %default]"),
 	  make_option(c("-p", "--nproc"), action="store", default=1, type='integer',
 	              help="Number of cores to use [default %default]"),
 	  make_option(c("-o", "--outpath"), action="store", default=NA, type='character',
@@ -35,6 +35,9 @@ parse_arguments <- function(){
 	              help="Use adaptive resolution choice [default %default]"),
     make_option(c("-s", "--sub_domains"), action="store_true", default=FALSE, type='logical',
 	              help="Call subdomains [default %default]")
+	)
+	make_option(c("--predefined_domains"), action="store_true", default=NULL, type='character',
+	              help="Use prefedined subdomains from a previous call [default %default]")
 	)
 	parser <- OptionParser(usage = "%prog [options]", option_list=option_list)
 	opt <- parse_args(parser)
@@ -77,7 +80,8 @@ parse_arguments <- function(){
 		paste0("[Parameters] Output: ", opt$outpath),
 		paste0("[Parameters] Keep Intermediate data: ", opt$keep_intermediate),
 		paste0("[Parameters] Use adaptive resolution: ", opt$adaptive),
-		paste0("[Parameters] Call subdomains: ", opt$sub_domains)
+		paste0("[Parameters] Call subdomains: ", opt$sub_domains),
+		paste0("[Parameters] predefined domains: ", opt$predefined_domains)
 	))
 
 	if(file.exists(opt$feature_track)){
@@ -118,7 +122,8 @@ handle_input_hic <- function(opt){
 		   feature_track=opt$feature_track,
 		   single_binsize_only=!opt$adaptive,
 		   n_cores = opt$nproc,
-		   sub_domains=opt$sub_domains)
+		   sub_domains=opt$sub_domains,
+		   predefined_domains = opt$predefined_domains)
 }
 
 handle_input_cool <- function(opt){
@@ -165,7 +170,8 @@ handle_input_cool <- function(opt){
 		   single_binsize_only=!opt$adaptive,
 		   save_intermediate_data=TRUE,
 		   n_cores=opt$nproc,
-		   sub_domains=opt$sub_domains)
+		   sub_domains=opt$sub_domains,
+		   predefined_domains = opt$predefined_domains)
 
 }
 

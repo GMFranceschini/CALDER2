@@ -336,7 +336,7 @@ CALDER_CD_hierarchy_v2 <- function(contact_tab_dump = NULL,
       stat_window_size = NULL
     )
 
-    tdc_file <- paste0(save_dir, "/chr", chr, "_", bin_size2look/1E03 ,"kb_topDom.rds")
+    tdc_file <- paste0(save_dir, "/chr", chr, "_", bin_size2look/1E03 ,"kb_TopDom.rds")
     tdc_save = compartments[[2]]
     saveRDS(tdc_save, file = tdc_file)
 
@@ -739,11 +739,7 @@ create_compartment_bed_v4 <- function(chr_bin_domain, bin_size)
 }
 
 
-CALDER_sub_domains <- function(intermediate_data_file = NULL,
-                               intermediate_data = NULL,
-                               chr,
-                               save_dir,
-                               bin_size) {
+CALDER_sub_domains <- function(intermediate_data_file = NULL, intermediate_data = NULL, chr, save_dir, bin_size) {
   time0 <- Sys.time()
   log_file <- paste0(save_dir, "/chr", chr, "_sub_domains_log.txt")
 
