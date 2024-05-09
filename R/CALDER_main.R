@@ -66,13 +66,13 @@ CALDER <- function(contact_tab_dump = NULL,
 		bin_sizes <- c(20E3, 40E3, 100E3)
 	}
 	if (bin_size == 25E3) {
-		bin_sizes <- c(25E3, 50E3, 100E3, 200E3)
+		bin_sizes <- c(25E3, 50E3, 100E3, 200E3, 500E3, 1000E3)
 	}
 	if (bin_size == 40E3) {
 		bin_sizes <- c(40E3, 80E3)
 	}
 	if (bin_size == 50E3) {
-		bin_sizes <- c(50E3, 100E3, 200E3)
+		bin_sizes <- c(50E3, 100E3, 200E3, 500E3, 1000E3)
 	}
 	if (!(bin_size %in% c(5E3, 10E3, 20E3, 25E3, 40E3, 50E3))) {
 		bin_sizes <- bin_size
