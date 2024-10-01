@@ -478,6 +478,7 @@ CALDER_CD_hierarchy_v2 <- function(contact_tab_dump = NULL,
     k_clusters = Inf, balanced_4_clusters =
       FALSE
   )$cluster_labels)
+  
   bin_comp <- data.table::data.table(
     chr = chr,
     bin_index = res$bin_names,
@@ -491,6 +492,7 @@ CALDER_CD_hierarchy_v2 <- function(contact_tab_dump = NULL,
   })
   res$mat <- mat_dense
   res$chr <- chr
+  
   generate_hierachy_bed(
     chr = chr,
     res = res,
@@ -602,7 +604,10 @@ get_best_reorder <- function(hc_hybrid_x_pro, x_pro) {
 
 
 
-generate_hierachy_bed <- function(chr, res, save_dir, bin_size) {
+
+
+
+generate_hierachy_bed <- function(chr, res, save_dir, bin_size, correction = TRUE) {
   chr_name <- paste0("chr", chr)
   hc <- res$CALDER_hc
 
@@ -610,18 +615,20 @@ generate_hierachy_bed <- function(chr, res, save_dir, bin_size) {
     k_clusters = Inf, balanced_4_clusters =
       FALSE
   )$cluster_labels)
+  
   bin_comp <- data.table::data.table(
     chr = chr,
     bin_index = as.numeric(res$bin_names),
     comp = rep(hc_k_labels_full, sapply(res$initial_clusters, length))
   )
+  
   chr_bin_domain <- bin_comp
   chr_bin_domain$chr <- paste0("chr", chr_bin_domain$chr)
-
-
+  
+ 
+  
   compartment_info_tab <- create_compartment_bed_v4(chr_bin_domain,
-    bin_size =
-      bin_size
+    bin_size = bin_size
   )
 
   boundaries <- unname(sapply(res$initial_clusters, max))
@@ -679,6 +686,7 @@ generate_hierachy_bed <- function(chr, res, save_dir, bin_size) {
     compartment_info_tab[, 2:3],
     comp_cols[comp_8]
   )
+  
   write.table(
     compartment_bed,
     file = compartments_bed_file,

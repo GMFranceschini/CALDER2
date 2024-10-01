@@ -6,6 +6,12 @@ total_execution.time
 _snaps/
 
 ### R ###
+*.txt 
+*.tsv
+*.bed 
+*.pdf
+*.rds 
+*.Rds
 
 # History files
 .Rhistory
